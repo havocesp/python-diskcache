@@ -4,11 +4,11 @@
 import functools
 import math
 import os
-import random
 import threading
 import time
 
 from .core import ENOVAL, args_to_key, full_name
+import secrets
 
 
 class Averager:
@@ -442,7 +442,7 @@ def memoize_stampede(
                 now = time.time()
                 ttl = expire_time - now
 
-                if (-delta * beta * math.log(random.random())) < ttl:
+                if (-delta * beta * math.log(secrets.SystemRandom().random())) < ttl:
                     return result  # Cache hit.
 
                 # Check whether a thread has started for early recomputation.
