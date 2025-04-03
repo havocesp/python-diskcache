@@ -18,6 +18,7 @@ import threading
 import time
 import warnings
 import zlib
+import fickling
 
 
 def full_name(func):
@@ -174,7 +175,7 @@ class Disk:
         if raw:
             return bytes(key) if type(key) is sqlite3.Binary else key
         else:
-            return pickle.load(io.BytesIO(key))
+            return fickling.load(io.BytesIO(key))
 
     def store(self, value, read, key=UNKNOWN):
         """Convert `value` to fields size, mode, filename, and value for Cache
@@ -279,9 +280,9 @@ class Disk:
         elif mode == MODE_PICKLE:
             if value is None:
                 with open(op.join(self._directory, filename), 'rb') as reader:
-                    return pickle.load(reader)
+                    return fickling.load(reader)
             else:
-                return pickle.load(io.BytesIO(value))
+                return fickling.load(io.BytesIO(value))
 
     def filename(self, key=UNKNOWN, value=UNKNOWN):
         """Return filename and full-path tuple for file storage.
